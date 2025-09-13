@@ -1,18 +1,68 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import type React from "react"
+
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Zap, Users, Brain, Shield, MessageCircle, Sparkles, ChevronDown } from "lucide-react"
+import Link from "next/link"
+
+function useScrollReveal() {
+  const [visibleElements, setVisibleElements] = useState(new Set())
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setVisibleElements((prev) => new Set([...prev, entry.target.id]))
+          }
+        })
+      },
+      { threshold: 0.1, rootMargin: "50px" },
+    )
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
+  }, [])
+
+  const observeElement = (element: HTMLElement | null) => {
+    if (element && observerRef.current) {
+      observerRef.current.observe(element)
+    }
+  }
+
+  return { visibleElements, observeElement }
+}
 
 export default function CollaboAILanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
+  const { visibleElements, observeElement } = useScrollReveal()
 
   useEffect(() => {
     setIsVisible(true)
+    document.documentElement.style.scrollBehavior = "smooth"
+
+    return () => {
+      document.documentElement.style.scrollBehavior = "auto"
+    }
   }, [])
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault()
+    const element = document.getElementById(targetId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" })
+    }
+    setIsMenuOpen(false)
+  }
 
   const useCases = [
     "Pitch Practice",
@@ -88,34 +138,39 @@ export default function CollaboAILanding() {
               <div className="ml-10 flex items-baseline space-x-6">
                 <a
                   href="#features"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                  onClick={(e) => handleSmoothScroll(e, "features")}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors cursor-pointer"
                 >
                   Features
                 </a>
                 <a
-                  href="#guide"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                  href="#use-cases"
+                  onClick={(e) => handleSmoothScroll(e, "use-cases")}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors cursor-pointer"
                 >
-                  Guide
+                  Use Cases
                 </a>
                 <a
-                  href="#pricing"
-                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
+                  href="#demo"
+                  onClick={(e) => handleSmoothScroll(e, "demo")}
+                  className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors cursor-pointer"
                 >
-                  Pricing
+                  Demo
                 </a>
-                <a
-                  href="#login"
+                <Link
+                  href="/login"
                   className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 transition-colors"
                 >
                   Log In
-                </a>
-                <Button
-                  size="sm"
-                  className="bg-blue-600 hover:bg-blue-700 text-white transition-all button-glow font-medium shadow-lg border-0 px-4 py-2"
-                >
-                  Get Started
-                </Button>
+                </Link>
+                <Link href="/login">
+                  <Button
+                    size="sm"
+                    className="bg-blue-600 hover:bg-blue-700 text-white transition-all button-glow font-medium shadow-lg border-0 px-4 py-2"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
               </div>
             </div>
 
@@ -138,31 +193,36 @@ export default function CollaboAILanding() {
             <div className="px-4 pt-2 pb-4 space-y-2 glass-effect border-t border-white/10">
               <a
                 href="#features"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors"
+                onClick={(e) => handleSmoothScroll(e, "features")}
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors cursor-pointer"
               >
                 Features
               </a>
               <a
-                href="#guide"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors"
+                href="#use-cases"
+                onClick={(e) => handleSmoothScroll(e, "use-cases")}
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors cursor-pointer"
               >
-                Guide
+                Use Cases
               </a>
               <a
-                href="#pricing"
-                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors"
+                href="#demo"
+                onClick={(e) => handleSmoothScroll(e, "demo")}
+                className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors cursor-pointer"
               >
-                Pricing
+                Demo
               </a>
-              <a
-                href="#login"
+              <Link
+                href="/login"
                 className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-white/10 transition-colors"
               >
                 Log In
-              </a>
-              <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-0 font-medium">
-                Get Started
-              </Button>
+              </Link>
+              <Link href="/login">
+                <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-0 font-medium">
+                  Get Started
+                </Button>
+              </Link>
             </div>
           </div>
         )}
@@ -192,12 +252,14 @@ export default function CollaboAILanding() {
               with shared context.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow font-semibold shadow-lg border-0 px-8 py-3"
-              >
-                Get Started
-              </Button>
+              <Link href="/login">
+                <Button
+                  size="lg"
+                  className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow font-semibold shadow-lg border-0 px-8 py-3"
+                >
+                  Get Started
+                </Button>
+              </Link>
               <Button
                 size="lg"
                 variant="outline"
@@ -209,7 +271,6 @@ export default function CollaboAILanding() {
           </div>
         </div>
 
-        {/* Floating Elements - Made smaller and more subtle */}
         <div className="absolute top-20 left-10 animate-float">
           <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg hover-lift border border-white/20">
             <MessageCircle className="h-8 w-8 text-blue-600" />
@@ -240,9 +301,15 @@ export default function CollaboAILanding() {
       </section>
 
       {/* Use Case Highlights */}
-      <section className="py-24 bg-background">
+      <section id="use-cases" className="py-24 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <div
+            ref={observeElement}
+            id="use-cases-header"
+            className={`text-center mb-20 transition-all duration-1000 ${
+              visibleElements.has("use-cases-header") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6 text-balance">
               Perfect for every collaboration
             </h2>
@@ -253,13 +320,23 @@ export default function CollaboAILanding() {
 
           <div className="grid md:grid-cols-3 gap-10">
             {useCaseCards.map((card, index) => (
-              <Card key={index} className="group hover-lift card-gradient border-border/50 shadow-lg">
-                <CardContent className="p-10 text-center">
-                  <div className="mb-6 flex justify-center">{card.icon}</div>
-                  <h3 className="text-2xl font-bold text-card-foreground mb-4">{card.title}</h3>
-                  <p className="text-muted-foreground text-lg leading-relaxed">{card.description}</p>
-                </CardContent>
-              </Card>
+              <div
+                key={index}
+                ref={observeElement}
+                id={`use-case-${index}`}
+                className={`transition-all duration-1000 ${
+                  visibleElements.has(`use-case-${index}`) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${index * 200}ms` }}
+              >
+                <Card className="group hover-lift card-gradient border-border/50 shadow-lg h-full">
+                  <CardContent className="p-10 text-center">
+                    <div className="mb-6 flex justify-center">{card.icon}</div>
+                    <h3 className="text-2xl font-bold text-card-foreground mb-4">{card.title}</h3>
+                    <p className="text-muted-foreground text-lg leading-relaxed">{card.description}</p>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
@@ -268,7 +345,13 @@ export default function CollaboAILanding() {
       {/* Features Section */}
       <section id="features" className="py-24 feature-gradient">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
+          <div
+            ref={observeElement}
+            id="features-header"
+            className={`text-center mb-20 transition-all duration-1000 ${
+              visibleElements.has("features-header") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
             <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6 text-balance">
               Powerful features for seamless collaboration
             </h2>
@@ -279,61 +362,90 @@ export default function CollaboAILanding() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="group hover-lift card-gradient border-border/50 shadow-lg">
-                <CardContent className="p-8 text-center">
-                  <div className="mb-6 flex justify-center text-primary">{feature.icon}</div>
-                  <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-                </CardContent>
-              </Card>
+              <div
+                key={index}
+                ref={observeElement}
+                id={`feature-${index}`}
+                className={`transition-all duration-1000 ${
+                  visibleElements.has(`feature-${index}`) ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={{ transitionDelay: `${index * 150}ms` }}
+              >
+                <Card className="group hover-lift card-gradient border-border/50 shadow-lg h-full">
+                  <CardContent className="p-8 text-center">
+                    <div className="mb-6 flex justify-center text-primary">{feature.icon}</div>
+                    <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Interactive Demo Preview */}
-      <section className="py-20 bg-background">
+      <section id="demo" className="py-20 bg-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-10 text-balance">
-            See collaboration in action
-          </h2>
+          <div
+            ref={observeElement}
+            id="demo-header"
+            className={`mb-10 transition-all duration-1000 ${
+              visibleElements.has("demo-header") ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+          >
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white text-balance">
+              See collaboration in action
+            </h2>
+          </div>
 
-          <Card className="p-8 demo-gradient border-border/50 shadow-xl hover-lift">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
-                  AI
+          <div
+            ref={observeElement}
+            id="demo-card"
+            className={`transition-all duration-1000 ${
+              visibleElements.has("demo-card")
+                ? "opacity-100 translate-y-0 scale-100"
+                : "opacity-0 translate-y-8 scale-95"
+            }`}
+            style={{ transitionDelay: "300ms" }}
+          >
+            <Card className="p-8 demo-gradient border-border/50 shadow-xl hover-lift">
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+                    AI
+                  </div>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-3 max-w-md shadow-sm">
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
+                      I can help you brainstorm ideas for your startup pitch. What's your product about?
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-3 max-w-md shadow-sm">
-                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
-                    I can help you brainstorm ideas for your startup pitch. What's your product about?
-                  </p>
+
+                <div className="flex items-start gap-3 justify-end">
+                  <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-3 max-w-md shadow-sm">
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
+                      It's a sustainable food delivery app
+                    </p>
+                  </div>
+                  <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+                    You
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
+                    Sam
+                  </div>
+                  <div className="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-3 max-w-md shadow-sm">
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
+                      Great! I think we should focus on the environmental impact in our pitch
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex items-start gap-3 justify-end">
-                <div className="bg-gray-100 dark:bg-gray-800 rounded-2xl p-3 max-w-md shadow-sm">
-                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
-                    It's a sustainable food delivery app
-                  </p>
-                </div>
-                <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
-                  You
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-md">
-                  Sam
-                </div>
-                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-3 max-w-md shadow-sm">
-                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-sm">
-                    Great! I think we should focus on the environmental impact in our pitch
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       </section>
 
@@ -347,19 +459,23 @@ export default function CollaboAILanding() {
             Join thousands of teams already using CollaboAI to work smarter together
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow text-lg px-10 py-4 font-semibold shadow-lg border-0"
-            >
-              Get Started
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="hover:bg-card/50 transition-all hover:scale-105 bg-white/20 backdrop-blur-sm border-white/30 text-foreground text-lg px-10 py-4 font-semibold shadow-lg"
-            >
-              Log In
-            </Button>
+            <Link href="/login">
+              <Button
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow text-lg px-10 py-4 font-semibold shadow-lg border-0"
+              >
+                Get Started
+              </Button>
+            </Link>
+            <Link href="/login">
+              <Button
+                size="lg"
+                variant="outline"
+                className="hover:bg-card/50 transition-all hover:scale-105 bg-white/20 backdrop-blur-sm border-white/30 text-foreground text-lg px-10 py-4 font-semibold shadow-lg"
+              >
+                Log In
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
