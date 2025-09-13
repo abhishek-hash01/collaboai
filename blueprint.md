@@ -12,6 +12,9 @@ CollaboAI is a web application that allows users to collaborate with an AI assis
 - **AI Assistant:** The AI is powered by the Gemini API and can provide context-aware responses and assistance.
 - **Collaboration:** Users can invite others to join their chat sessions.
 - **Authentication:** Users can sign up and log in to the application.
+- **Loading Animations:** The application displays loading indicators during data fetching and other asynchronous operations to provide a smooth and responsive user experience.
+- **Dynamic Chat Rooms:** The application supports dynamic chat rooms, allowing for multiple, separate chat sessions.
+- **Seamless Invitation Flow:** When a user is invited to a chat, they are automatically redirected to the correct chat room after logging in or signing up.
 
 ### Design:
 - **Modern UI:** The application features a modern and intuitive user interface with a clean and visually balanced layout.
@@ -21,16 +24,9 @@ CollaboAI is a web application that allows users to collaborate with an AI assis
 - **Iconography:** Icons are used to enhance understanding and navigation.
 - **Interactivity:** Interactive elements have a "glow" effect and provide visual feedback to the user.
 
-## Current Task: Integrate Login, Signup, and Chat Pages
+## Current Task: Fix Gemini API Error
 
 ### Plan:
-1.  **Update Landing Page (`pages/index.tsx`):**
-    -   Redirect "Get Started" buttons to the login page (`/login`).
-2.  **Create Signup Page (`pages/signup/page.tsx`):**
-    -   Create a new signup page with a form for email and password.
-    -   Add a link to the login page for users who already have an account.
-3.  **Update Login Page (`pages/login/page.tsx`):**
-    -   Update the "Sign up" link to point to the new signup page (`/signup`).
-4.  **Verify Component Installation:**
-    -   Run `npm install` to ensure all dependencies are correctly installed.
-    -   Run `npm run lint -- --fix` to check for and fix any linting issues.
+1.  **Update `app/api/chat/route.ts`:**
+    -   Modified the `POST` function to correctly format the chat history before sending it to the Gemini API.
+    -   The `history` array is now mapped to a new array that only includes the `role` and `parts` fields, which are the fields the API expects.

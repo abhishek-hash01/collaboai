@@ -163,7 +163,7 @@ export default function CollaboAILanding() {
                 >
                   Log In
                 </Link>
-                <Link href="/login">
+                <Link href="/signup">
                   <Button
                     size="sm"
                     className="bg-blue-600 hover:bg-blue-700 text-white transition-all button-glow font-medium shadow-lg border-0 px-4 py-2"
@@ -218,7 +218,7 @@ export default function CollaboAILanding() {
               >
                 Log In
               </Link>
-              <Link href="/login">
+              <Link href="/signup">
                 <Button className="w-full mt-2 bg-blue-600 hover:bg-blue-700 text-white shadow-lg border-0 font-medium">
                   Get Started
                 </Button>
@@ -252,7 +252,7 @@ export default function CollaboAILanding() {
               with shared context.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/login">
+              <Link href="/signup">
                 <Button
                   size="lg"
                   className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow font-semibold shadow-lg border-0 px-8 py-3"
@@ -459,7 +459,7 @@ export default function CollaboAILanding() {
             Join thousands of teams already using CollaboAI to work smarter together
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link href="/login">
+            <Link href="/signup">
               <Button
                 size="lg"
                 className="bg-blue-600 hover:bg-blue-700 text-white transition-all hover:scale-105 button-glow text-lg px-10 py-4 font-semibold shadow-lg border-0"

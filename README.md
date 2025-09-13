@@ -1,40 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# CollaboAI 🚀
 
-## Getting Started
+Welcome to **CollaboAI**, a real-time, collaborative chat application that integrates the power of Google's Gemini AI to assist and supercharge your team's brainstorming and problem-solving sessions.
 
-First, run the development server:
+This application is built with a modern tech stack, leveraging Next.js for the frontend and Firebase for backend services, providing a seamless and responsive user experience.
+
+## ✨ Features
+
+- **Real-time Chat:** Engage in dynamic conversations with both AI and team members.
+- **AI Integration:** Leverage the power of Google's Gemini for intelligent responses and creative ideas.
+- **User Authentication:** Secure login and user management powered by Firebase Authentication.
+- **Collaborator Presence:** See who's online and part of the chat session.
+- **Markdown Support:** Format your messages with markdown for clear and structured communication.
+- **Theming:** Switch between light and dark modes for your visual comfort.
+- **Responsive Design:** A fully responsive interface that works on desktops, tablets, and mobile devices.
+
+## 🛠️ Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Backend & DB:** [Firebase](https://firebase.google.com/) (Authentication, Firestore, Hosting)
+- **AI:** [Google Gemini](https://ai.google/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Shadcn/ui](https://ui.shadcn.com/)
+- **Firebase Hooks:** [React Firebase Hooks](https://github.com/CSFrequency/react-firebase-hooks)
+
+## 🚀 Getting Started
+
+Follow these instructions to get a local copy of the project up and running.
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v18 or later)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+- A Firebase project
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/collabo-ai.git
+cd collabo-ai
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Set Up Environment Variables
+
+Create a `.env.local` file in the root of your project and add your Firebase and Gemini API credentials:
+
+```env
+# Firebase Configuration
+NEXT_PUBLIC_FIREBASE_API_KEY="your-api-key"
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="your-auth-domain"
+NEXT_PUBLIC_FIREBASE_PROJECT_ID="your-project-id"
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="your-storage-bucket"
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="your-sender-id"
+NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"
+
+# Gemini API Key
+GEMINI_API_KEY="your-gemini-api-key"
+```
+
+### 4. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## ☁️ Deployment
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+This application is configured for easy deployment to [Firebase Hosting](https://firebase.google.com/docs/hosting).
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+### 1. Install Firebase CLI
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install -g firebase-tools
+```
 
-## Learn More
+### 2. Login to Firebase
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+firebase login
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+### 3. Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+firebase deploy --only hosting
+```
 
-## Deploy on Vercel
+After deployment, you will be provided with a live URL for your application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🤝 Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
