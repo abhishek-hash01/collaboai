@@ -1,15 +1,11 @@
 import { NextResponse } from 'next/server'
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai'
-import { defineSecret } from 'firebase-functions/params';
-
-// Define the secret in the code
-defineSecret('GEMINI_API_KEY');
 
 export async function GET(req: Request) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      const errorMsg = "Missing Gemini API Key. Please set it as a secret in your Firebase project.";
+      const errorMsg = "Missing Gemini API Key. Please set it in your environment variables.";
       console.error(errorMsg);
       return new NextResponse(errorMsg, { status: 500 });
     }
