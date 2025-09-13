@@ -34,7 +34,7 @@ function ChatPage() {
   const { theme, setTheme } = useTheme()
   const router = useRouter()
   const params = useParams()
-  const chatId = params.chatId as string;
+  const chatId = params?.chatId as string;
   const [user] = useAuthState(auth)
 
   const scrollAreaRef = useRef<HTMLDivElement>(null)
